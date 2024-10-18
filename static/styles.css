@@ -1,0 +1,55 @@
+/* Container for centering the content */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+/* Styling for the header */
+h1 {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Styling for the button */
+#pizzaButton {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #ff6f61;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect for the button */
+#pizzaButton:hover {
+    background-color: #ff4e3f;
+    transform: scale(1.05);
+}
+
+/* Button click animation */
+#pizzaButton:active {
+    transform: scale(0.98);
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    #pizzaButton {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
